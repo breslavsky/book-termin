@@ -29,9 +29,9 @@ it('should find termin', () => {
     .each(td => {
       const dayNumber = parseInt(td.text());
       // for testing
-      /*if (dayNumber == 1) {
+      if (dayNumber == 1) {
         td.append('<a>test</a>');
-      }*/
+      }
       const foundSlots = td.find('a').length;
       if (foundSlots > 0) {
         cy.get('@linkToBooking')
