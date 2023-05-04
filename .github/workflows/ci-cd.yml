@@ -6,7 +6,7 @@ on:
   schedule:
     - cron: "*/5 * * * *"
 jobs:
-  test:
+  check:
     runs-on: ubuntu-20.04
     environment: Production
     env:
@@ -21,7 +21,7 @@ jobs:
       - name: Check API key
         run: echo $TG_API_KEY | awk '{print length}'
 
-      - name: Find slots
+      - name: Find slot
         run: docker compose up --exit-code-from cypress
 
       - name: Upload artifacts

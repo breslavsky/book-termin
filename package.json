@@ -1,14 +1,22 @@
 {
-  "name": "book-termin",
+  "name": "find-termin",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/breslavsky/find-termin.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/breslavsky/find-termin/issues"
+  },
+  "homepage": "https://github.com/breslavsky/find-termin#readme",
   "devDependencies": {
     "cypress": "^12.11.0"
   }

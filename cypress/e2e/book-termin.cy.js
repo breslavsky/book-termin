@@ -1,7 +1,6 @@
 const TG_API_KEY = Cypress.env('TG_API_KEY');
-// AAF4z-kXzwI038OU1MwLElCC4FjgrIhdGtk
 
-function sendMessage(text) {
+function sendMessageToTelegram(text) {
   cy.request({
     method: 'GET',
     url: `https://api.telegram.org/bot5824526462:${TG_API_KEY}/sendMessage`,
@@ -12,36 +11,52 @@ function sendMessage(text) {
   });
 }
 
-it('should find termin', () => {
-  cy.visit('https://service.berlin.de/dienstleistung/327537/');
-
-  cy.contains('a', 'Prenzlauer')
-    .invoke('css', 'color', 'green')
-    .closest('.row')
-    .find('.span2 a')
-    .invoke('css', 'color', 'red')
-    .wait(2000)
-    .as('linkToBooking')
-    .click();
-
-  cy.get('.calendar-table > :nth-child(3) .calendar-month-table td')
-    .should('have.length.greaterThan', 0)
-    .each(td => {
-      const dayNumber = parseInt(td.text());
-      // for testing
-      if (dayNumber == 1) {
-        td.append('<a>test</a>');
-      }
-      const foundSlots = td.find('a').length;
-      if (foundSlots > 0) {
+function findSlots() {
+  cy.get('.calendar-table > :nth-child(3) table')
+    .should('have.length', 2)
+    .find('td')
+    //.invoke('css', 'background', 'red')
+    .each(day => {
+      const dayNumber = parseInt(day.text());
+      // only for debug
+      /*if (dayNumber == 1) {
+        day.append('<a></a>')
+      }*/
+      const slots = day.find('a').length;
+      if (slots > 0) {
+        cy.log('found slot ', dayNumber);
         cy.get('@linkToBooking')
           .invoke('attr', 'href')
           .then(href => {
-            const message = `Found slot in ${dayNumber}! Press the link ${href}`;
-            cy.log(message);
-            sendMessage(message);
+            sendMessageToTelegram(`Found slot ${dayNumber}!\nPress link ${href}`);
           });
       }
     });
 
+    cy.wait(2000);
+}
+
+const OFFICES = ['Prenzlauer', 'Pankow', 'Wedding', 'Rathaus Mitte'];
+
+describe('Book termin', () => {
+
+  for (const office of OFFICES) {
+    it(`should find slots in ${office}`, () => {
+
+      cy.visit('/dienstleistung/327537/');
+
+      cy.contains('a', office)
+        .invoke('css', 'color', 'green')
+        .closest('.row')
+        .find('.span2 a')
+        .invoke('css', 'color', 'red')
+        .wait(2000)
+        .as('linkToBooking')
+        .click();
+
+      findSlots();
+    });
+  }
+
 });
+
