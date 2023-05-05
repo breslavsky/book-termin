@@ -1,6 +1,6 @@
 Find Termin in Bürgeramt!
 
-[![CI/CD](https://github.com/breslavsky/find-termin/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/breslavsky/find-termin/actions/workflows/ci-cd.yml)
+[![CI/CD](https://github.com/breslavsky/book-termin/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/breslavsky/book-termin/actions/workflows/ci-cd.yml)
 
 # Use case
 1. Open https://service.berlin.de/dienstleistung/327537/
